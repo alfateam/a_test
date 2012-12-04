@@ -1,3 +1,7 @@
+(function avoid_caching() {
+	delete require.cache[module.id];
+})();
+
 var assert = require('assert');
 var it = require('./it').it;
 var suite_name_builder = require('./suite_name_builder');
@@ -7,7 +11,7 @@ var reporter = require('./reporter');
 
 function when(act, c) {
 
-	act = load_act(module.parent.parent, act);
+	act = load_act(module.parent, act,when.parentCount);
 
 	var suite_name = suite_name_builder(act);
 	reporter.suite(suite_name);
@@ -17,7 +21,7 @@ function when(act, c) {
 		it: it
 	};
 }
-
+when.parentCount = 0;
 when.summary = reporter.summary;
 module.exports = when;
 

@@ -21,8 +21,9 @@ it_module.it = it;
 	console.log('when called with act path');
 
 
-	var suite_title = 'suite title';
-	var act_path = 'act path';
+	var suite_title = 'suite_title';
+	var act_path = 'act_path';
+	var parentCount = 2;
 
 	reporter.suite = mock();
 	reporter.suite.expect(suite_title).return();
@@ -30,15 +31,17 @@ it_module.it = it;
 	var suite_name_builder = requireMock('./suite_name_builder');
 	suite_name_builder.expect(act).return(suite_title);
 
-	module.parent = {};
+	
 
 	var load_act = requireMock('./load_act');
-	load_act.expect(module.parent, act_path).return(act);
+	load_act.expect(module, act_path, parentCount).return(act);
 
 	var execute_act = requireMock('./execute_act');
 	execute_act.expect(act, c).return();
 
 	var when = require('../when');
+	when.parentCount++;
+	when.parentCount++;
 	var returned = when(act_path, c);
 
 	test('it should execute loaded act with given context', function() {

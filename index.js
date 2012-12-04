@@ -1,9 +1,11 @@
-(function avoid_caching_when_module() {
+(function avoid_caching() {
 	delete require.cache[module.id];
-	delete require.cache[require.resolve('./when')];
 })();
 
+var _when = require('./when');
+_when.parentCount++;
+
 module.exports = {
-	when: require('./when')
+	when: _when
 };
 
