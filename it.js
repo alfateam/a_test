@@ -79,9 +79,9 @@ function it(title) {
 		return new_it();
 	};
 
-	retval.assertDoesNotThrow = function(block, error, message) {
+	retval.assertDoesNotThrow = function(block, message) {
 		x.test(title, function() {
-			assert.doesNotThrow(block, error, message);
+			assert.doesNotThrow(block, message);
 		});
 		return new_it();
 	};
