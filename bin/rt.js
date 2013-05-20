@@ -3,6 +3,7 @@
 var cwd = process.cwd();
 var glob = require('glob');
 
+process.summary = require('../emptySummary');
 glob(cwd + '/**/when*.js', function(err, files) {
     for(var i in files.reverse()) {
       if( files[i].indexOf('node_modules') >= 0 ) continue;

@@ -1,5 +1,5 @@
 var util = require('util');
-
+var _summary = require('./summary');
 var red = '\u001b[31m',
 green = '\u001b[32m',
 yellow = '\u001b[33m',
@@ -15,13 +15,7 @@ suites = 0,
 failures = {};
 
 function summary() {
-	console.log("\n========== Summary =============\n");
-	for(var i in failures) {
-		console.log("%s\n", i);
-		console.log("%s\n------------", failures[i]);
-	}
-	console.log('\nsuites: %d, passed: %s%d%s, failed: %s%d%s',
-		suites, green, passed, reset, red, failed, reset);
+	_summary(suites,passed,failed,failures);
 }
 
 function ok(testname) {
