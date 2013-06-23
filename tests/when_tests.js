@@ -30,19 +30,15 @@ function act() {}
 	var suite_name_builder = requireMock('./suite_name_builder');
 	suite_name_builder.expect(act).return(suite_title);
 
-	
-	var parentCount = 2;
-	
+	var calling_module = {};
 	var load_act = requireMock('./load_act');
-	load_act.expect(module, act_path, parentCount).return(act);
+	load_act.expect(calling_module, act_path).return(act);
 
 	var execute_act = requireMock('./execute_act');
 	execute_act.expect(act, c).return();
 
 	var when = require('../when');
-	
-	when.parentCount = parentCount;
-
+	when.calling_module = calling_module;
 	var returned = when(act_path, c);
 
 	test('it should execute loaded act with given context', function() {
@@ -75,8 +71,6 @@ function act() {}
 	var it_module = requireMock('./it');
 	it_module.it = it;
 
-
-
 	var suite_title = 'suite_title';
 	
 
@@ -88,19 +82,19 @@ function act() {}
 
 	
 	var act_path = 'act_path';
+	var calling_module = {};
 	var act_path_by_convention = requireMock('./act_path_by_convention');
-	act_path_by_convention.expect(module).return(act_path);
-	var parentCount = 2;
+	act_path_by_convention.expect(calling_module).return(act_path);
 	
 	var load_act = requireMock('./load_act');
-	load_act.expect(module, act_path, parentCount).return(act);
+	load_act.expect(calling_module, act_path).return(act);
 
 	var execute_act = requireMock('./execute_act');
 	execute_act.expect(act, c).return();
 
 	var when = require('../when');
 	
-	when.parentCount = parentCount;
+	when.calling_module = calling_module;
 
 	var returned = when(c);
 

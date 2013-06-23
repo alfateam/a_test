@@ -13,11 +13,11 @@ function when(act, c) {
 	
 	if(arguments.length == 1) {
 		c = arguments[0];
-		act = act_path_by_convention(module.parent);
+		act = act_path_by_convention(when.calling_module);
 	}
 
 	
-	act = load_act(module.parent, act, when.parentCount);
+	act = load_act(when.calling_module, act);
 
 	var suite_name = suite_name_builder(act);
 	reporter.suite(suite_name);
@@ -28,7 +28,7 @@ function when(act, c) {
 		it: it
 	};
 }
-when.parentCount = 0;
+
 when.summary = reporter.summary;
 module.exports = when;
 
