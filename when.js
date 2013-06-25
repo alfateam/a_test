@@ -1,5 +1,13 @@
-(function avoid_caching() {
-	delete require.cache[module.id];
+var reporter = require('./reporter');
+
+(function delete_cache_except_reporter() {
+	Object.keys(require.cache).forEach(onDelete);
+
+	function onDelete(key) {
+		var cached = require.cache[key];
+		if (!(cached.exports === reporter)) 
+			delete require.cache[key];
+	}
 })();
 
 var assert = require('assert');
@@ -7,7 +15,6 @@ var it = require('./it').it;
 var suite_name_builder = require('./suite_name_builder');
 var execute_act = require('./execute_act');
 var load_act = require('./load_act');
-var reporter = require('./reporter');
 var act_path_by_convention = require('./act_path_by_convention');
 function when(act, c) {
 	
