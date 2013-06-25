@@ -9,9 +9,31 @@ var path = requireMock('path');
 
 (function() {
 
-	console.log('when act_path is not defined');
+	console.log('when act_path is not defined and when has underscore');
 	
 	var calling_module_basename = 'when_foo';
+	var calling_module_filename = '/a/b/c/' + calling_module_basename;
+	
+	
+	var calling_module  = {
+		filename : calling_module_filename
+	}
+
+	path.basename = mock();
+	path.basename.expect(calling_module_filename).return(calling_module_basename);
+	
+	var returned = sut(calling_module);
+
+	test('it should return original act_path', function() {
+		assert.strictEqual(returned, 'foo');
+	});
+})();
+
+(function() {
+
+	console.log('when act_path is not defined and when has camelCase');
+	
+	var calling_module_basename = 'whenFoo';
 	var calling_module_filename = '/a/b/c/' + calling_module_basename;
 	
 	
