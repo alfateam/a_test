@@ -1,15 +1,4 @@
 var reporter = require('./reporter');
-
-(function delete_cache_except_reporter() {
-	Object.keys(require.cache).forEach(onDelete);
-
-	function onDelete(key) {
-		var cached = require.cache[key];
-		if (!(cached.exports === reporter)) 
-			delete require.cache[key];
-	}
-})();
-
 var assert = require('assert');
 var it = require('./it').it;
 var suite_name_builder = require('./suite_name_builder');
@@ -36,6 +25,5 @@ function when(act, c) {
 	};
 }
 
-when.summary = reporter.summary;
 module.exports = when;
 
