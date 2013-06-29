@@ -8,12 +8,14 @@ var a = require('a_mock'),
 	directory = 'c:/foo/xSpec',
 	testFilePath1 = 'someTestFile1.js',
 	testFilePath2 = 'someTestFile2.js',
+	nodeDirectory = 'node_modules',
 	otherFilePath = 'otherBar.js',
 	subFolder1 = 'sub1',
+	fullNodeDirectory = directory + '/' + nodeDirectory,	 
 	fullSubFolder1 = directory + '/' + subFolder1,	
 	subFolder2 = 'sub2',
 	fullSubFolder2 = directory + '/' + subFolder2,	
-	fileList = [testFilePath1,testFilePath2,otherFilePath,subFolder1,subFolder2],
+	fileList = [testFilePath1,testFilePath2,otherFilePath,nodeDirectory,subFolder1,subFolder2],
 	didRequireTest1,
 	didRequireTest2;
 
@@ -28,15 +30,29 @@ var isTestFile = requireMock('./isTestFile');
 	stubFiles();
 	expectRequire(directory + '/' + testFilePath1).whenCalled(onRequireTest1).return(null);
 	expectRequire(directory + '/' + testFilePath2).whenCalled(onRequireTest2).return(null);
+	runTestsInSubFolders = requireMock('./runTests');
+	runTestsInSubFolders.expect(fullSubFolder1);
+	runTestsInSubFolders.expect(fullSubFolder2);
+	clearCache = requireMock('./clearCache');
+	clearCache.expect().repeat(2);
 	var sut = require('../runTests');
+
 	sut(directory);
 
 	test('it should require testFile1', function() {
 		assert.ok(didRequireTest1);
 	});
 
+	test('it should delete cache between each test', function() {
+		assert.ok(clearCache.verify());
+	});
+
 	test('it should require testFile2', function() {
 		assert.ok(didRequireTest2);
+	});
+
+	test('it should run tests in subFolders', function() {
+		assert.ok(runTestsInSubFolders.verify());
 	});
 
 	function onRequireTest1() {
@@ -54,6 +70,7 @@ function stubFiles() {
 	stubOtherFile(otherFilePath);
 	stubSub(subFolder1);
 	stubSub(subFolder2);
+	stubSub(nodeDirectory);
 }
 
 function stubTestFile(file) {		
