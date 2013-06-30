@@ -4,17 +4,25 @@ var runSubFolder = runSubFolderFirstTime;
 var clearCache = require('./clearCache');
 
 function run(directory) {
-
 	var files = fs.readdirSync(directory);	
+	var subFolders = [];
 	for (var i = 0; i < files.length; i++) {
 		var file = files[i];
 		var fullPath = directory + '/' + file;
 		if (isDirectory(fullPath))
-			tryRunSubFolder(fullPath,file);
+			subFolders.push({fullPath:fullPath , file:file});
 		else if (isTestFile(file)) {
 			require(fullPath);
 			clearCache();
 		}
+	};
+	runSubFolders(subFolders);
+}
+
+function runSubFolders(subFolders) {
+	for (var i = 0; i < subFolders.length; i++) {
+		var entry = subFolders[i];
+		tryRunSubFolder(entry.fullPath,entry.file);
 	};
 }
 
