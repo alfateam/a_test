@@ -33,7 +33,7 @@ function fail(testname, trace) {
 }
 function suite(suite_name) {
 	process.summary.last_suite_name = suite_name;
-	console.log('\n %s %s\n', right_quote, suite_name);
+	console.log('\n %s %s', right_quote, suite_name);
 	process.summary.suites++;
 }
 function warn(message) {
