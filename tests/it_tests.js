@@ -1,13 +1,16 @@
 var test = require('./test');
 var assert = require('assert');
 
-var expect_require = require('a_mock').expectRequire;
+var a = require('a_mock');
+var requireMock = a.requireMock;
+var expect_require = a.expectRequire;
+var assertEqual = requireMock('./assert/assertEqual');
+var title = 'title';
 var test_invoker = {
 	test: function() {}
 };
 
-expect_require('./test_invoker').
-return (test_invoker);
+expect_require('./test_invoker').return (test_invoker);
 
 (function() {
 
@@ -63,7 +66,7 @@ return (test_invoker);
 
 	console.log('when asserted');
 
-	var it = require('../it').it();
+	var it = require('../it').it(title);
 
 	test('assertFail should return object containing "it" function', function() {
 		var retval = it.assertFail();
@@ -107,18 +110,12 @@ return (test_invoker);
 		assert(invoked);
 	});
 
-	test('assertEqual should return object containing "it" function', function() {
-		var retval = it.assertEqual();
+	test('assertEqual should return object containing "it" and call assertEqual function', function() {
+		var expected = {}, actual = {};
+		assertEqual.expect(title,expected,actual).return();
+		var retval = it.assertEqual(expected,actual);
 		assert(typeof retval.it == 'function');
-	});
-
-	test('assertEqual should invoke test', function() {
-		var invoked;
-		test_invoker.test = function() {
-			invoked = true;
-		}
-		it.assertEqual();
-		assert(invoked);
+		assert.doesNotThrow(assertEqual.verify);
 	});
 
 	test('assertNotEqual should return object containing "it" function', function() {

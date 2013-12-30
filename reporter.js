@@ -25,7 +25,8 @@ function ok(testname) {
 	process.summary.passed++;
 }
 
-function fail(testname, trace) {
+function fail(testname, trace, trace2, etc) {
+	//todo
 	var msg = util.format('  %s%s %s%s', red, heavy_ballot, testname, reset);
 	console.log(msg);
 	process.summary.failures[process.summary.last_suite_name + "\n" + msg] = red + trace + reset;

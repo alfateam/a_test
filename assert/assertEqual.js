@@ -1,0 +1,11 @@
+var reporter = require('../reporter');
+
+module.exports = function(title,expected,actual) {	
+	if (expected == actual) {
+		reporter.ok(title);
+		return;
+	}
+	var expectedText = 'Expected: ' + expected;
+	var actualText = 'but was: ' + actual;
+	reporter.fail(title,expectedText,actualText)
+};

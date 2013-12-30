@@ -1,4 +1,5 @@
 var assert = require('assert');
+var assertEqual = require('./assert/assertEqual');
 var x = require('./test_invoker');
 
 function new_it() {
@@ -30,10 +31,8 @@ function it(title) {
 		return new_it();
 	};
 
-	retval.assertEqual = function(expected, actual, message) {
-		x.test(title, function() {
-			assert.equal(actual, expected, message);
-		});
+	retval.assertEqual = function(expected, actual) {
+		assertEqual(title,expected,actual);
 		return new_it();
 	};
 

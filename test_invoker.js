@@ -1,6 +1,7 @@
 var reporter = require('./reporter');
 
 function test(text, fn) {
+	//todo handle failed act
 	try {
 		fn();
 		reporter.ok(text);
