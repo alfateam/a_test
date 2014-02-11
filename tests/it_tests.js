@@ -8,6 +8,8 @@ var assertEqual = requireMock('./assert/assertEqual');
 var assertNotEqual = requireMock('./assert/assertNotEqual');
 var assertDeepEqual = requireMock('./assert/assertDeepEqual');
 var assertNotDeepEqual = requireMock('./assert/assertNotDeepEqual');
+var assertStrictEqual = requireMock('./assert/assertStrictEqual');
+var assertNotStrictEqual = requireMock('./assert/assertNotStrictEqual');
 var title = 'title';
 var test_invoker = {
 	test: function() {}
@@ -121,20 +123,20 @@ expect_require('./test_invoker').return (test_invoker);
 		assert.doesNotThrow(assertEqual.verify);
 	});
 
-	test('assertDeepEqual should return object containing "it" and call assertDeepEqual function', function() {
-		var expected = {}, actual = {};
-		assertDeepEqual.expect(title,expected,actual).return();
-		var retval = it.assertDeepEqual(expected,actual);
-		assert(typeof retval.it == 'function');
-		assert.doesNotThrow(assertDeepEqual.verify);
-	});
-	
 	test('assertNotEqual should return object containing "it" and call assertNotEqual function', function() {
 		var expected = {}, actual = {};
 		assertNotEqual.expect(title,expected,actual).return();
 		var retval = it.assertNotEqual(expected,actual);
 		assert(typeof retval.it == 'function');
 		assert.doesNotThrow(assertNotEqual.verify);
+	});
+
+	test('assertDeepEqual should return object containing "it" and call assertDeepEqual function', function() {
+		var expected = {}, actual = {};
+		assertDeepEqual.expect(title,expected,actual).return();
+		var retval = it.assertDeepEqual(expected,actual);
+		assert(typeof retval.it == 'function');
+		assert.doesNotThrow(assertDeepEqual.verify);
 	});
 
 	test('assertNotDeepEqual should return object containing "it" and call assertNotDeepEqual function', function() {
@@ -145,32 +147,20 @@ expect_require('./test_invoker').return (test_invoker);
 		assert.doesNotThrow(assertNotDeepEqual.verify);
 	});
 
-	test('assertStrictEqual should return object containing "it" function', function() {
-		var retval = it.assertStrictEqual();
+	test('assertStrictEqual should return object containing "it" and call assertStrictEqual function', function() {
+		var expected = {}, actual = {};
+		assertStrictEqual.expect(title,expected,actual).return();
+		var retval = it.assertStrictEqual(expected,actual);
 		assert(typeof retval.it == 'function');
+		assert.doesNotThrow(assertStrictEqual.verify);
 	});
 
-	test('assertStrictEqual should invoke test', function() {
-		var invoked;
-		test_invoker.test = function() {
-			invoked = true;
-		}
-		it.assertStrictEqual();
-		assert(invoked);
-	});
-
-	test('assertNotStrictEqual should return object containing "it" function', function() {
-		var retval = it.assertNotStrictEqual();
+	test('assertNotStrictEqual should return object containing "it" and call assertNotStrictEqual function', function() {
+		var expected = {}, actual = {};
+		assertNotStrictEqual.expect(title,expected,actual).return();
+		var retval = it.assertNotStrictEqual(expected,actual);
 		assert(typeof retval.it == 'function');
-	});
-
-	test('assertNotStrictEqual should invoke test', function() {
-		var invoked;
-		test_invoker.test = function() {
-			invoked = true;
-		}
-		it.assertNotStrictEqual();
-		assert(invoked);
+		assert.doesNotThrow(assertNotStrictEqual.verify);
 	});
 
 	test('assertThrows should return object containing "it" function', function() {
