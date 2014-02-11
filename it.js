@@ -1,5 +1,8 @@
 var assert = require('assert');
 var assertEqual = require('./assert/assertEqual');
+var assertNotEqual = require('./assert/assertNotEqual');
+var assertDeepEqual = require('./assert/assertDeepEqual');
+var assertNotDeepEqual = require('./assert/assertNotDeepEqual');
 var x = require('./test_invoker');
 
 function new_it() {
@@ -37,23 +40,17 @@ function it(title) {
 	};
 
 	retval.assertNotEqual = function(expected, actual, message) {
-		x.test(title, function() {
-			assert.notEqual(actual, expected, message);
-		});
+		assertNotEqual(title,expected,actual);
 		return new_it();
 	};
 
-	retval.assertDeepEqual = function(expected, actual, message) {
-		x.test(title, function() {
-			assert.deepEqual(actual, expected, message);
-		});
+	retval.assertDeepEqual = function(expected, actual) {
+		assertDeepEqual(title,expected,actual);
 		return new_it();
 	};
 
-	retval.assertNotDeepEqual = function(expected, actual, message) {
-		x.test(title, function() {
-			assert.notDeepEqual(actual, expected, message);
-		});
+	retval.assertNotDeepEqual = function(expected, actual) {
+		assertNotDeepEqual(title,expected,actual);
 		return new_it();
 	};
 
