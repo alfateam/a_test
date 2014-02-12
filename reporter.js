@@ -25,7 +25,7 @@ function ok(testname) {
 	process.summary.passed++;
 }
 
-function fail(testname, trace, trace2, etc) {
+function fail(testname) {
 	//todo
 
 	var msg = util.format('  %s%s %s%s', red, heavy_ballot, testname, reset);
@@ -37,14 +37,15 @@ function fail(testname, trace, trace2, etc) {
 		traceLines += lf + '        '  + arguments[i];
 		lf = '\n'
 	}
-	console.log(traceLines);
+	if (traceLines)
+		console.log(traceLines);
 
-	process.summary.failures[process.summary.last_suite_name + "\n" + msg] = red + traceLines + reset;
+	process.summary.failures[process.summary.last_suite_name + "\n" + msg] = traceLines ;
 	process.summary.failed++;
 }
 function suite(suite_name) {
 	process.summary.last_suite_name = suite_name;
-	console.log('\n %s %s', right_quote, suite_name);
+	console.log('\n %s', suite_name);
 	process.summary.suites++;
 }
 function warn(message) {
