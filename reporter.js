@@ -27,9 +27,19 @@ function ok(testname) {
 
 function fail(testname, trace, trace2, etc) {
 	//todo
+
 	var msg = util.format('  %s%s %s%s', red, heavy_ballot, testname, reset);
 	console.log(msg);
-	process.summary.failures[process.summary.last_suite_name + "\n" + msg] = red + trace + reset;
+	
+	var traceLines = '';
+	var lf = ''
+	for(var i = 1; i < arguments.length; i++){
+		traceLines += lf + '        '  + arguments[i];
+		lf = '\n'
+	}
+	console.log(traceLines);
+
+	process.summary.failures[process.summary.last_suite_name + "\n" + msg] = red + traceLines + reset;
 	process.summary.failed++;
 }
 function suite(suite_name) {
