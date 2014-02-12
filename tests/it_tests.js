@@ -15,11 +15,7 @@ var assertThrows = requireMock('./assert/assertThrows');
 var assertDoesNotThrow = requireMock('./assert/assertDoesNotThrow');
 var assertFail = requireMock('./assert/assertFail');
 var title = 'title';
-var test_invoker = {
-	test: function() {}
-};
 
-expect_require('./test_invoker').return (test_invoker);
 
 (function() {
 

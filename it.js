@@ -9,7 +9,6 @@ var assertOk = require('./assert/assertOk');
 var assertThrows = require('./assert/assertThrows');
 var assertDoesNotThrow = require('./assert/assertDoesNotThrow');
 var assertFail = require('./assert/assertFail');
-var x = require('./test_invoker');
 
 function new_it() {
 	return {
