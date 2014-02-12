@@ -14,7 +14,7 @@ module.exports = function(title,expected,actual) {
 		if(err instanceof assert.AssertionError) {
 			var expectedText = 'Expected: ' + JSON.stringify(expected);
 			var actualText = 'but was: ' + JSON.stringify(actual);
-			reporter.fail(title,expectedText,actualText)
+			reporter.fail(title,expectedText,actualText);
 		}
 	}
 };

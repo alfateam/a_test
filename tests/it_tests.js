@@ -10,6 +10,10 @@ var assertDeepEqual = requireMock('./assert/assertDeepEqual');
 var assertNotDeepEqual = requireMock('./assert/assertNotDeepEqual');
 var assertStrictEqual = requireMock('./assert/assertStrictEqual');
 var assertNotStrictEqual = requireMock('./assert/assertNotStrictEqual');
+var assertOk = requireMock('./assert/assertOk');
+var assertThrows = requireMock('./assert/assertThrows');
+var assertDoesNotThrow = requireMock('./assert/assertDoesNotThrow');
+var assertFail = requireMock('./assert/assertFail');
 var title = 'title';
 var test_invoker = {
 	test: function() {}
@@ -30,9 +34,6 @@ expect_require('./test_invoker').return (test_invoker);
 		assert(typeof it.assertOk == 'function');
 	});
 
-	test('it should return object containing assert function', function() {
-		assert(typeof it.assert == 'function');
-	});
 	test('it should return object containing assertEqual function', function() {
 		assert(typeof it.assertEqual == 'function');
 	});
@@ -73,46 +74,17 @@ expect_require('./test_invoker').return (test_invoker);
 
 	var it = require('../it').it(title);
 
-	test('assertFail should return object containing "it" function', function() {
-		var retval = it.assertFail();
+	test('assertOk should return object containing "it" and call assertOk function', function() {
+		var expected = {};
+		assertOk.expect(title,expected).return();
+		var retval = it.assertOk(expected);
 		assert(typeof retval.it == 'function');
+		assert.doesNotThrow(assertOk.verify);
 	});
 
-	test('assertFail should invoke test', function() {
-		var invoked;
-		test_invoker.test = function() {
-			invoked = true;
-		}
-		it.assertFail();
-		assert(invoked);
-	});
-
-	test('assertOk should return object containing "it" function', function() {
-		var retval = it.assertOk();
-		assert(typeof retval.it == 'function');
-	});
-
-	test('assertOk should invoke test', function() {
-		var invoked;
-		test_invoker.test = function() {
-			invoked = true;
-		}
-		it.assertOk();
-		assert(invoked);
-	});
-
-	test('assert should return object containing "it" function', function() {
-		var retval = it.assert();
-		assert(typeof retval.it == 'function');
-	});
-
-	test('assert should invoke test', function() {
-		var invoked;
-		test_invoker.test = function() {
-			invoked = true;
-		}
-		it.assert();
-		assert(invoked);
+	test('assert should point at it.assertOk', function() {
+		
+		assert.strictEqual(it.assert, it.assertOk);
 	});
 
 	test('assertEqual should return object containing "it" and call assertEqual function', function() {
@@ -163,33 +135,28 @@ expect_require('./test_invoker').return (test_invoker);
 		assert.doesNotThrow(assertNotStrictEqual.verify);
 	});
 
-	test('assertThrows should return object containing "it" function', function() {
-		var retval = it.assertThrows();
+	test('assertThrows should return object containing "it" and call assertThrows function', function() {
+		var expected = {}, actual = {};
+		assertThrows.expect(title,expected,actual).return();
+		var retval = it.assertThrows(expected,actual);
 		assert(typeof retval.it == 'function');
-
+		assert.doesNotThrow(assertThrows.verify);
 	});
 
-	test('assertThrows should invoke test', function() {
-		var invoked;
-		test_invoker.test = function() {
-			invoked = true;
-		}
-		it.assertThrows();
-		assert(invoked);
-	});
-
-	test('assertDoesNotThrow should return object containing "it" function', function() {
-		var retval = it.assertDoesNotThrow();
+	test('assertDoesNotThrow should return object containing "it" and call assertDoesNotThrow function', function() {
+		var expected = {};
+		assertDoesNotThrow.expect(title,expected).return();
+		var retval = it.assertDoesNotThrow(expected);
 		assert(typeof retval.it == 'function');
+		assert.doesNotThrow(assertDoesNotThrow.verify);
 	});
 
-	test('assertDoesNotThrow should invoke test', function() {
-		var invoked;
-		test_invoker.test = function() {
-			invoked = true;
-		}
-		it.assertDoesNotThrow();
-		assert(invoked);
+	test('assertFail should return object containing "it" and call assertFail function', function() {
+		var expected = {};
+		assertFail.expect(title).return();
+		var retval = it.assertFail();
+		assert(typeof retval.it == 'function');
+		assert.doesNotThrow(assertFail.verify);
 	});
 
 })();

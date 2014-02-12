@@ -5,6 +5,10 @@ var assertDeepEqual = require('./assert/assertDeepEqual');
 var assertNotDeepEqual = require('./assert/assertNotDeepEqual');
 var assertStrictEqual = require('./assert/assertStrictEqual');
 var assertNotStrictEqual = require('./assert/assertNotStrictEqual');
+var assertOk = require('./assert/assertOk');
+var assertThrows = require('./assert/assertThrows');
+var assertDoesNotThrow = require('./assert/assertDoesNotThrow');
+var assertFail = require('./assert/assertFail');
 var x = require('./test_invoker');
 
 function new_it() {
@@ -15,33 +19,19 @@ function new_it() {
 function it(title) {
 	var retval = {};
 
-	retval.assertFail = function(message) {
-		x.test(title, function() {
-			assert.fail(null, null, message);
-		});
+	retval.assertOk = function(value) {
+		assertOk(title,value);
 		return new_it();
 	};
 
-	retval.assertOk = function(value, message) {
-		x.test(title, function() {
-			assert.ok(value, message);
-		});
-		return new_it();
-	};
-
-	retval.assert = function(value, message) {
-		x.test(title, function() {
-			assert(value, message);
-		});
-		return new_it();
-	};
+	retval.assert = retval.assertOk;
 
 	retval.assertEqual = function(expected, actual) {
 		assertEqual(title,expected,actual);
 		return new_it();
 	};
 
-	retval.assertNotEqual = function(expected, actual, message) {
+	retval.assertNotEqual = function(expected, actual) {
 		assertNotEqual(title,expected,actual);
 		return new_it();
 	};
@@ -66,20 +56,21 @@ function it(title) {
 		return new_it();
 	};
 
-
-	retval.assertThrows = function(block, error, message) {
-		x.test(title, function() {
-			assert.throws(block, error, message);
-		});
+	retval.assertThrows = function(block, error) {
+		assertThrows(title,block,error);
 		return new_it();
 	};
 
-	retval.assertDoesNotThrow = function(block, message) {
-		x.test(title, function() {
-			assert.doesNotThrow(block, message);
-		});
+	retval.assertDoesNotThrow = function(block) {
+		assertDoesNotThrow(title,block);
 		return new_it();
 	};
+
+	retval.assertFail = function() {
+		assertFail(title);
+		return new_it();
+	};
+
 
 	return retval;
 }
