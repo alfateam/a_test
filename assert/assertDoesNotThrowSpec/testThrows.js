@@ -7,7 +7,7 @@ var reporter = requireMock('../reporter');
 
 var title = {}, block = function(){ throw 'testError'; };
 var expectedText = 'Expected not to throw';
-var actualText = 'But threw: testError';
+var actualText = 'but threw: testError';
 
 console.log('when throws');
 

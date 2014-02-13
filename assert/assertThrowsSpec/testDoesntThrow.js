@@ -11,7 +11,7 @@ console.log('when does not throw');
 var expectedText = 'Expected error: ' + error;
 var actualText = 'But was: ' + undefined;
 reporter.fail = mock();
-reporter.fail.expect(title, expectedText, actualText).return();
+reporter.fail.expect(title, expectedText).expectAnything().return();
 
 var sut = require('../assertThrows');
 sut(title,block,error);

@@ -2,23 +2,25 @@ var reporter = require('../reporter');
 
 var assert = require('assert');
 var doesNotThrow = assert.doesNotThrow;
+var trimStackTrace = require('./trimStackTrace');
+
 
 module.exports = function(title,block) {		
 	 try {		
-	 	doesNotThrow(block);
-	 	reporter.ok(title);	
-	 } 
-	 
+	 	doesNotThrow(block);	 	
+	 } 	 
 	 catch (err) {
 	 	var expectedText = 'Expected not to throw';
-		var actualText = 'But threw: ';
+		var actualText = 'but threw: ';
 		
 		if(err.stack == undefined) {
 			actualText += err;
 		} else {
-			actualText += err.stack;
+			actualText += trimStackTrace(err);
 		}
 
 	 	reporter.fail(title, expectedText, actualText);
+	 	return;
 	 }
+	 reporter.ok(title);	
 };
