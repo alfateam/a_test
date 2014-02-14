@@ -1,8 +1,10 @@
 var reporter = require('./reporter');
 var load_act = require('./load_act');
+var trySetBaseByConvention = require('./execute/trySetBaseByConvention');                                      
 
 function execute(act, c) {
 	var baseExecute = require('./execute_act');
+	trySetBaseByConvention(act);
 	var base_act = act.base;
 
 	if (base_act) {
@@ -15,4 +17,3 @@ function execute(act, c) {
 }
 
 module.exports = execute;
-

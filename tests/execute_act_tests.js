@@ -4,6 +4,7 @@ var requireMock = require('a_mock').requireMock;
 var mock = require('a_mock').mock;
 var reporter = requireMock('./reporter');
 var load_act = requireMock('./load_act');
+var trySetBaseByConvention = requireMock('./execute/trySetBaseByConvention');                                 
 
 (function() {
 
@@ -15,9 +16,14 @@ var load_act = requireMock('./load_act');
 	var c2 = {};
 	act.expect(c).return();
 
+	trySetBaseByConvention.expect(act).return();
+
 	var sut = require('../execute_act');
 	var returned = sut(act,c);
 
+	test('it should try set base by convention', function() {
+		assert.doesNotThrow(trySetBaseByConvention.verify);
+	});
 
 	test('it should execute act', function() {
 		assert(act.verify());
@@ -47,9 +53,14 @@ var load_act = requireMock('./load_act');
 	act.expect(c2).return();
 
 	load_act.expect(act, base_path).return(base);
+	trySetBaseByConvention.expect(act).return();
 
 	var sut = require('../execute_act');
 	var returned = sut(act,c);
+
+	test('it should try set base by convention', function() {
+		assert.doesNotThrow(trySetBaseByConvention.verify);
+	});
 
 	test('it should execute act', function() {
 		assert(act.verify());
