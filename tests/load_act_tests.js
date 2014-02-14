@@ -10,10 +10,9 @@ var load_act = require('../load_act');
 
 
 (function() {
-	console.log('when loaded');
+	console.log('when loaded with path');
 
 	var act_path = 'act_path';
-	var parent_count = 2;
 	var resolved_act_path = 'resolved_act_path';
 	var act = requireMock('resolved_act_path');
 
@@ -31,7 +30,7 @@ var load_act = require('../load_act');
 	path.resolve.expect(calling_module_dirname, act_path).return(resolved_act_path);
 
 
-	var returned = load_act(calling_module, act_path, parent_count);
+	var returned = load_act(calling_module, act_path);
 
 	test('it should load act module using given path relative to ancestor module', function() {
 		assert.strictEqual(returned, act);
@@ -40,5 +39,18 @@ var load_act = require('../load_act');
 	test('it should set filename property to resolved path', function() {
 		assert(returned.filename === resolved_act_path);
 	});
+})();
+
+(function() {
+	console.log('when loaded with func');
+
+	var act = function() {};
+	var calling_module = {};
+	var returned = load_act(calling_module, act);
+
+	test('it should return func', function() {
+		assert.strictEqual(returned, act);
+	});
+
 })();
 

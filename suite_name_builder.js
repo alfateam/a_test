@@ -1,12 +1,12 @@
 
 var separator = ' \u00bb ';
 
-function build_suite_name(act) {
+function build_suite_name(whenModule) {
 
 	var splitChar = '/';
-	if (act.filename.indexOf('\\') > -1)
+	if (whenModule.filename.indexOf('\\') > -1)
 		splitChar = '\\';
-	var folderArray = act.filename.split(splitChar);
+	var folderArray = whenModule.filename.split(splitChar);
 	folderArray.shift();
 	var shallowActName = actName();
 
@@ -21,13 +21,13 @@ function build_suite_name(act) {
 	}
 
 	function actName()
-	{
+	{		
 		var shortFileName = folderArray.pop();
+		shortFileName = shortFileName.toLowerCase();
+		shortFileName = shortFileName.replace('when_','');
+		shortFileName = shortFileName.replace('when','');
 		return shortFileName.split('.js')[0];
 	}
-
 }
-
-
 
 module.exports = build_suite_name;
