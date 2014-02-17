@@ -12,7 +12,7 @@ function trySetBaseByConvention(act) {
 	function tryMatchByName() {
 		var expectedBase = path.basename(curFolder) + '.js';	
 		var fullExpectedBase = path.join(curFolder, path.sep + '..',expectedBase);
-		if (fs.existsSync(fullExpectedBase) && fs.isFile(fullExpectedBase)) {
+		if (fs.existsSync(fullExpectedBase) && isFile(fullExpectedBase)) {
 			act.base = '../' + expectedBase;			
 			return true;
 		}		
@@ -42,5 +42,9 @@ function trySetBaseByConvention(act) {
 	}	
 }
 
+function isFile(file) {
+	var lstat = fs.lstatSync(file);
+	return lstat.isFile();
+}
 module.exports = trySetBaseByConvention;
 

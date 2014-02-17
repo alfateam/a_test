@@ -21,8 +21,7 @@ module.exports = function getActFiles(folder) {
 
 	function isFile() {
 		var fullFile = path.join(folder,path.sep,file);
-		return fs.isFile(fullFile);
+		var lstat = fs.lstatSync(fullFile);
+		return lstat.isFile();
 	}
 }
-
-

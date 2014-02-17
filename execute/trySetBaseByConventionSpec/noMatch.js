@@ -21,7 +21,6 @@ var sut = require('../trySetBaseByConvention');
 	act.filename = actFilename;	
 	
 	fs.existsSync = mock();
-	fs.isFile = mock();
 
 	isSpecFolder.expect('c:/devel/xSpec/xyz/bar').return(false);
 

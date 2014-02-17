@@ -21,15 +21,22 @@ var allFiles = [whenFile,someDir,actFile,actFile2,otherFile];
 fs.readdirSync = mock();
 fs.readdirSync.expect(directory).return(allFiles);
 
-fs.isFile = mock();
-fs.isFile.expect('dir/whenxxx.js').return(true);
-fs.isFile.expect('dir/bar.js').return(true);
-fs.isFile.expect('dir/zetawhen.js').return(true);
-fs.isFile.expect('dir/foo.txt').return(true);
-fs.isFile.expect('dir/s').return(false);
+fs.lstatSync = mock();
+stubIsFile('dir/whenxxx.js',true);
+stubIsFile('dir/bar.js',true);
+stubIsFile('dir/zetawhen.js',true);
+stubIsFile('dir/foo.txt',true);
+stubIsFile('dir/s',false);
 
 var returned = sut(directory);
 test('it returns only act files', function() {
 	assert.deepEqual(returned,expectedFiles);
 	
 });
+
+function stubIsFile(file,retVal) {
+	var lstat = {};
+	fs.lstatSync.expect(file).return(lstat);
+	lstat.isFile = mock();
+	lstat.isFile.expect().return(true);
+}

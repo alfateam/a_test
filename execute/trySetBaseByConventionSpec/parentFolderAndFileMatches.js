@@ -23,8 +23,11 @@ var sut = require('../trySetBaseByConvention');
 
 	fs.existsSync = mock();
 	fs.existsSync.expect('c:/devel/xSpec/new.js').return(true);
-	fs.isFile = mock();
-	fs.isFile.expect('c:/devel/xSpec/new.js').return(true);
+	var lstat = {};
+	fs.lstatSync = mock();
+	fs.lstatSync.expect('c:/devel/xSpec/new.js').return(lstat);
+	lstat.isFile = mock();
+	lstat.isFile.expect().return(true);
 	sut(act);
 
 	test('it sets base to relative parent filename', function() {
