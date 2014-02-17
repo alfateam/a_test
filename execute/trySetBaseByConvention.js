@@ -4,12 +4,21 @@ var path = require('path');
 function trySetBaseByConvention(act) {
 	if (act.base)
 		return;
-
 	var curFolder = path.dirname(act.filename);
-	var files = fs.readdirSync(parentFolder)		
 	tryMatchByName();
 
 	function tryMatchByName() {
+		var expectedBase = path.basename(curFolder) + '.js';	
+		var fullExpectedBase = path.join(curFolder, path.sep + '..',expectedBase);
+		if (fs.existsSync(fullExpectedBase) && fs.isFile(fullExpectedBase)) {
+			act.base = '../' + expectedBase;
+			return true;
+		}
+
+	}/*
+	function trydMatchByName() {
+		var files = fs.readdirSync(parentFolder)		
+
 		var expectedBase = path.basename(curFolder) + '.js';	
 		var parentFolder = path.join(curFolder, path.sep + '..');
 
@@ -23,7 +32,7 @@ function trySetBaseByConvention(act) {
 			}
 		};
 	}
-
+*/
 }
 
 module.exports = trySetBaseByConvention;
