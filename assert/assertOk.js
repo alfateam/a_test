@@ -12,7 +12,7 @@ module.exports = function(title,value) {
 	} 
 	catch (err) {
 		if(err instanceof assert.AssertionError) {
-			var text = 'Expected truthy value, but was: ' + value;
+			var text = 'Expected truthy, but was: ' + value;
 			reporter.fail(title,text);
 		}
 	}

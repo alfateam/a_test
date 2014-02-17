@@ -8,7 +8,7 @@ var reporter = requireMock('../reporter');
 var title = {}, value = false;
 
 console.log('when not ok');
-var text = 'Expected truthy value, but was: ' + false;
+var text = 'Expected truthy, but was: ' + false;
 reporter.fail = mock();
 reporter.fail.expect(title, text).return();
 
