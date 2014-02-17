@@ -1,38 +1,45 @@
 var fs = require('fs');
 var path = require('path');
+var isSpecFolder = require('./isSpecFolder');
+var getActFiles = require('./getActFiles');
 
 function trySetBaseByConvention(act) {
 	if (act.base)
 		return;
 	var curFolder = path.dirname(act.filename);
-	tryMatchByName();
+	tryMatchByName() || tryMatchSingleFile(curFolder);
 
 	function tryMatchByName() {
 		var expectedBase = path.basename(curFolder) + '.js';	
 		var fullExpectedBase = path.join(curFolder, path.sep + '..',expectedBase);
 		if (fs.existsSync(fullExpectedBase) && fs.isFile(fullExpectedBase)) {
-			act.base = '../' + expectedBase;
+			act.base = '../' + expectedBase;			
 			return true;
-		}
-
-	}/*
-	function trydMatchByName() {
-		var files = fs.readdirSync(parentFolder)		
-
-		var expectedBase = path.basename(curFolder) + '.js';	
-		var parentFolder = path.join(curFolder, path.sep + '..');
-
-		var candidate;
-		for (var i = 0; i < files.length; i++) {
-			var file = files[i];	
-			var fullFile = path.join(parentFolder,file);		
-			if (expectedBase === file) {
-				act.base = '..' + path.sep + file;
-				return true;
-			}
-		};
+		}		
 	}
-*/
+
+	function tryMatchSingleFile(curFolder) {		
+		return tryMatchSingleFileCore(curFolder,'');		
+	}
+
+	function tryMatchSingleFileCore(curFolder,relative) {		
+		if (isSpecFolder(curFolder))
+			return;
+		var parentFolder = path.join(curFolder, path.sep + '..');
+		var files = getActFiles(parentFolder);
+		var candidate;
+		for (var i = 0; i < files.length; i++) {						
+			var file = files[i];
+			var fullFile = path.join(curFolder, path.sep + '..',file);				
+			if (candidate)
+				return;
+			candidate = relative + '..' + path.sep + file;							
+		};
+		if(candidate) 
+			act.base = candidate;
+		else
+			tryMatchSingleFileCore(parentFolder,relative + '..' + path.sep);
+	}	
 }
 
 module.exports = trySetBaseByConvention;

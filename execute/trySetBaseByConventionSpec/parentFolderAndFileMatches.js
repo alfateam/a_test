@@ -3,6 +3,8 @@ var test = require('../../test');
 var requireMock = require('a_mock').requireMock;
 var mock = require('a_mock').mock;
 var fs = requireMock('fs');
+var isSpecFolder = requireMock('./isSpecFolder');
+var getActFiles = requireMock('./getActFiles');
 var sut = require('../trySetBaseByConvention');
 
 
@@ -17,13 +19,15 @@ var sut = require('../trySetBaseByConvention');
 	var actFilename = 'c:/devel/xSpec/new/fooAct.js';
 	act.filename = actFilename;	
 	
+	isSpecFolder.expect('c:/devel/xSpec/new').return(false);
+
 	fs.existsSync = mock();
 	fs.existsSync.expect('c:/devel/xSpec/new.js').return(true);
 	fs.isFile = mock();
 	fs.isFile.expect('c:/devel/xSpec/new.js').return(true);
 	sut(act);
 
-	test('it sets base to shallow parent filename', function() {
+	test('it sets base to relative parent filename', function() {
 		assert.equal(act.base,expectedBase);
 	});
 })();

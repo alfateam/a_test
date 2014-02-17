@@ -14,7 +14,7 @@ var returned;
 
 	console.log('when building with when_');
 	test('returns folder names separated with right_quotes up to spec folder', function() {
-		assert.equal('spec » givenA » givenB » act', returned);
+		assert.equal(returned,'spec » givenA » givenB » act');
 	});
 
 	act.filename = '\\path\\spec\\givenA\\givenB\\act.js';
@@ -22,15 +22,23 @@ var returned;
 
 	console.log('when building on windows with _when');
 	test('returns folder names separated with right_quotes up to spec folder', function() {
-		assert.equal('spec » givenA » givenB » act', returned);
+		assert.equal(returned,'spec » givenA » givenB » act');
 	});
 
-	act.filename = '/path/spec/givenA/givenB/whenAct.js';
+	act.filename = '/path/spec/specGivenA/givenB/whenAct.js';
 	returned = sut(act);
 
 	console.log('when building with when');
 	test('returns folder names separated with right_quotes up to spec folder', function() {
-		assert.equal('spec » givenA » givenB » act', returned);
+		assert.equal(returned,'spec » specGivenA » givenB » act');
+	});
+
+	act.filename = '/path/specs/givenA/givenB/whenAct.js';
+	returned = sut(act);
+
+	console.log('when building with when and specs');
+	test('returns folder names separated with right_quotes up to specs folder', function() {
+		assert.equal(returned,'specs » givenA » givenB » act');
 	});
 
 })();

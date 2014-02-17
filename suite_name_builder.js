@@ -15,8 +15,8 @@ function build_suite_name(whenModule) {
 
 	function folderArrayToWhenName() {
 		var name = folderArray.pop();
-		if (name.toLowerCase().indexOf('spec') >= 0)
-			return name ;
+		if (endsWithSpec(name))
+			return name;
 		return folderArrayToWhenName()  + separator  +  name;
 	}
 
@@ -30,4 +30,14 @@ function build_suite_name(whenModule) {
 	}
 }
 
+function endsWithSpec(string) {
+	return endsWith(string,'spec') || endsWith(string,'specs');	
+}
+
+function endsWith(string,suffix) {
+	return (string.toLowerCase().indexOf(suffix,string.length - suffix.length) >= 0)
+}
+
 module.exports = build_suite_name;
+
+
