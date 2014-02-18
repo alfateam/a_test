@@ -4,7 +4,7 @@ var isSpecFolder = require('./isSpecFolder');
 var getActFiles = require('./getActFiles');
 
 function trySetBaseByConvention(act) {
-	if (act.base)
+	if(act.base || !act.filename)
 		return;
 	var curFolder = path.dirname(act.filename);
 	tryMatchByName() || tryMatchSingleFile(curFolder);
