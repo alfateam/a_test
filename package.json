@@ -1,12 +1,12 @@
 {
   "name": "a_test",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "main": "index.js",
   "title": "a_test",
   "description": "Sub package of a. Test framework in compact when-style. With recursive test runner",
   "keywords": ["tdd","bdd","test runner"],
   "dependencies": {
-    "a_mock": "> =0.0.1"
+    "a_mock": "0.0.9"
   },
   "repository" : {
          "type" : "git",
