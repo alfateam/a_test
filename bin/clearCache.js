@@ -1,11 +1,11 @@
-var clear = require('a_mock').expectRequire.clear;
+var reset = require('a_mock').expectRequire.reset;
 
 function clearCache() {
 	for(var prop in require.cache) {
 		delete require.cache[prop];
 	}
-	if (clear)
-		clear();
+	if (reset)
+		reset();
 }
 
 module.exports = clearCache;
