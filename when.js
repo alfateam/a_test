@@ -1,6 +1,7 @@
 var reporter = require('./reporter');
 var assert = require('assert');
 var it = require('./it').it;
+var inconclusive_it = require('./inconclusive_it').it;
 var suite_name_builder = require('./suite_name_builder');
 var execute_act = require('./execute_act');
 var load_act = require('./load_act');
@@ -18,8 +19,11 @@ function when(act_path_or_fn, c) {
 
 	var suite_name = suite_name_builder(when.calling_module);
 	reporter.suite(suite_name);
-
-	execute_act(act, c);
+	try {
+		execute_act(act, c);
+	} catch (e)	{
+		return { it: inconclusive_it };
+	}
 
 	return {
 		it: it

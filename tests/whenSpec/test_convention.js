@@ -19,6 +19,7 @@ function act() {}
 	
 	var it_module = requireMock('./it');
 	it_module.it = it;
+	var inconclusive_it_module = requireMock('./inconclusive_it');
 
 	var suite_title = 'suite_title';
 	

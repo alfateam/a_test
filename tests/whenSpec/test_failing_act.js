@@ -4,7 +4,7 @@ var test = require('../test');
 var requireMock = require('a_mock').requireMock;
 var mock = require('a_mock').mock;
 
-var it = function(title) {};
+var inconclusive_it = function(title) {};
 var summary = function() {};
 var c = {};
 function act() {}
@@ -18,8 +18,8 @@ function act() {}
 	reporter.summary = summary;
 	
 	var it_module = requireMock('./it');
-	it_module.it = it;
 	var inconclusive_it_module = requireMock('./inconclusive_it');
+	inconclusive_it_module.it = inconclusive_it;
 
 
 	var suite_title = 'suite_title';
@@ -36,18 +36,14 @@ function act() {}
 	load_act.expect(calling_module,act_path).return(act);
 
 	var execute_act = requireMock('./execute_act');
-	execute_act.expect(act, c).return();
+	execute_act.expectAnything().whenCalled(function() { throw Error;});
 
 	var when = require('../../when');	
 	when.calling_module = calling_module;
 	var returned = when(act_path, c);
 
-	test('it should execute loaded act with given context', function() {
-		assert(execute_act.verify());
-	});
-
-	test('it returns an object with "it" function', function() {
-		assert(returned.it === it);
+	test('it returns an inconclusive "it"', function() {
+		assert(returned.it === inconclusive_it);
 	});
 
 	test('it reports suite title', function() {
