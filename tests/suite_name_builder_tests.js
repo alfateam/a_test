@@ -9,20 +9,20 @@ var returned;
 
 (function() {
 
-	act.filename = '/path/spec/givenA/givenB/when_act.js';
+	act.filename = '/path/spec/givenA/givenB/when_Act.js';
 	returned = sut(act);
 
 	console.log('when building with when_');
 	test('returns folder names separated with right_quotes up to spec folder', function() {
-		assert.equal(returned,'spec » givenA » givenB » act');
+		assert.equal(returned,'spec » givenA » givenB » Act');
 	});
 
-	act.filename = '\\path\\spec\\givenA\\givenB\\act.js';
+	act.filename = '\\path\\spec\\givenA\\givenB\\When_Act.js';
 	returned = sut(act);
 
 	console.log('when building on windows with _when');
 	test('returns folder names separated with right_quotes up to spec folder', function() {
-		assert.equal(returned,'spec » givenA » givenB » act');
+		assert.equal(returned,'spec » givenA » givenB » Act');
 	});
 
 	act.filename = '/path/spec/specGivenA/givenB/whenAct.js';
@@ -30,7 +30,7 @@ var returned;
 
 	console.log('when building with when');
 	test('returns folder names separated with right_quotes up to spec folder', function() {
-		assert.equal(returned,'spec » specGivenA » givenB » act');
+		assert.equal(returned,'spec » specGivenA » givenB » Act');
 	});
 
 	act.filename = '/path/specs/givenA/givenB/whenAct.js';
@@ -38,7 +38,7 @@ var returned;
 
 	console.log('when building with when and specs');
 	test('returns folder names separated with right_quotes up to specs folder', function() {
-		assert.equal(returned,'specs » givenA » givenB » act');
+		assert.equal(returned,'specs » givenA » givenB » Act');
 	});
 
 })();

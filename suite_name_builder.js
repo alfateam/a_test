@@ -23,9 +23,8 @@ function build_suite_name(whenModule) {
 	function actName()
 	{		
 		var shortFileName = folderArray.pop();
-		shortFileName = shortFileName.toLowerCase();
-		shortFileName = shortFileName.replace('when_','');
-		shortFileName = shortFileName.replace('when','');
+		shortFileName = shortFileName.replace(/when_/i,'');
+		shortFileName = shortFileName.replace(/when/i,'');
 		return shortFileName.split('.js')[0];
 	}
 }
