@@ -8,14 +8,13 @@ heavy_ballot = '\u2718',
 check_mark = '\u2713',
 right_quote = '\u00bb';
 
-if ((process.summary && !process.summary.failures) || !process.summary) {
+if ((process.summary && !process.summary.messages) || !process.summary) {
 	process.summary = summary;
-	summary.passed = 0,
-	summary.failed = 0,
-	summary.suites = 0,
-	summary.inconclusive = 0,
-	summary.failures = {},
-	summary.inconclusive_suites = {};
+	summary.passed = 0;
+	summary.failed = 0;
+	summary.suites = 0;
+	summary.inconclusive = 0;
+	summary.messages = [];
 }
 
 function summary() {
@@ -40,12 +39,12 @@ function inconclusive_suite(suite_name, err){
 	}
 	var msg = util.format('  %s%s%s', red, errorMessage, reset);
 	console.log(msg);
-	process.summary.inconclusive_suites[suite_name] = msg;
+	var summaryMsg = util.format("%s\n%s\n------------", suite_name, msg);
+	process.summary.messages.push(summaryMsg);
 }
 
 function fail(testname) {
-	//todo
-
+	
 	var msg = util.format('  %s%s %s%s', red, heavy_ballot, testname, reset);
 	console.log(msg);
 	
@@ -58,7 +57,8 @@ function fail(testname) {
 	if (traceLines)
 		console.log(traceLines);
 
-	process.summary.failures[process.summary.last_suite_name + "\n" + msg] = traceLines ;
+	var summaryMsg = util.format("%s\n%s\n%s\n------------", process.summary.last_suite_name, msg, traceLines);
+	process.summary.messages.push(summaryMsg);
 	process.summary.failed++;
 }
 function suite(suite_name) {
