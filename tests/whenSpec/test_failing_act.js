@@ -14,19 +14,23 @@ function act() {}
 
 	console.log('when called with act path');
 
+	var suite_title = 'suite_title';
+	var act_path = 'act_path';
+
 	var reporter = requireMock('./reporter');
 	reporter.summary = summary;
+	var errorToThrow = 'error';
+	reporter.inconclusive_suite = mock();
+	reporter.inconclusive_suite.expect(suite_title, errorToThrow);
+
+
 	
 	var it_module = requireMock('./it');
 	var inconclusive_it_module = requireMock('./inconclusive_it');
 	inconclusive_it_module.it = inconclusive_it;
 
-
-	var suite_title = 'suite_title';
-	var act_path = 'act_path';
-
 	reporter.suite = mock();
-	reporter.suite.expect(suite_title).return();
+	reporter.suite.expect(suite_title);
 
 	var suite_name_builder = requireMock('./suite_name_builder');
 	var calling_module = {};
@@ -36,7 +40,7 @@ function act() {}
 	load_act.expect(calling_module,act_path).return(act);
 
 	var execute_act = requireMock('./execute_act');
-	execute_act.expectAnything().whenCalled(function() { throw Error;});
+	execute_act.expectAnything().expectAnything().whenCalled(function() { throw errorToThrow;});
 
 	var when = require('../../when');	
 	when.calling_module = calling_module;
@@ -46,8 +50,12 @@ function act() {}
 		assert(returned.it === inconclusive_it);
 	});
 
+	test('it reports inconclusive suite and an error', function(){
+		assert.doesNotThrow(reporter.inconclusive_suite.verify);
+	});
+
 	test('it reports suite title', function() {
-		assert(reporter.suite.verify());
+		assert.doesNotThrow(reporter.suite.verify);
 	});
 
 

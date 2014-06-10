@@ -8,17 +8,18 @@ heavy_ballot = '\u2718',
 check_mark = '\u2713',
 right_quote = '\u00bb';
 
-if ((process.summary && !process.summary.failures) || !process.summary || !process.inconclusive) {
+if ((process.summary && !process.summary.failures) || !process.summary) {
 	process.summary = summary;
 	summary.passed = 0,
 	summary.failed = 0,
 	summary.suites = 0,
 	summary.inconclusive = 0,
-	summary.failures = {};
+	summary.failures = {},
+	summary.inconclusive_suites = {};
 }
 
 function summary() {
-	_summary(process.summary.suites,process.summary.passed,process.summary.failed,process.summary.failures, process.summary.inconclusive);
+	_summary(process.summary);
 }
 
 function ok(testname) {
@@ -29,6 +30,17 @@ function ok(testname) {
 function inconclusive(testname){
 	console.log('  %s! %s%s', yellow, testname, reset);
 	process.summary.inconclusive++;
+}
+
+function inconclusive_suite(suite_name, err){
+	var errorMessage = err;
+
+	if(err.stack){
+		errorMessage = err.stack;
+	}
+	var msg = util.format('  %s%s%s', red, errorMessage, reset);
+	console.log(msg);
+	process.summary.inconclusive_suites[suite_name] = msg;
 }
 
 function fail(testname) {
@@ -63,6 +75,7 @@ module.exports = {
 	fail: fail,
 	warn: warn,
 	inconclusive: inconclusive,
+	inconclusive_suite: inconclusive_suite,
 	suite: suite
 };
 

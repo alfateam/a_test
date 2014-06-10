@@ -22,6 +22,7 @@ function when(act_path_or_fn, c) {
 	try {
 		execute_act(act, c);
 	} catch (e)	{
+		reporter.inconclusive_suite(suite_name, e);
 		return { it: inconclusive_it };
 	}
 
