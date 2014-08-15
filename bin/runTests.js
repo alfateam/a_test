@@ -13,10 +13,16 @@ function run(directory) {
 			subFolders.push({fullPath:fullPath , file:file});
 		else if (isTestFile(file)) {
 			require(fullPath);
+			unloadLastRequiredModule();
 			clearCache();
 		}
 	};
 	runSubFolders(subFolders);
+}
+
+function unloadLastRequiredModule() {
+	var lastIndex = module.children.length - 1;
+	module.children.splice(lastIndex, 1);
 }
 
 function runSubFolders(subFolders) {
