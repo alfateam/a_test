@@ -20,12 +20,14 @@ var	test = require('../../tests/test');
 	(function () {	
 		console.log('failing tests');
 		var failed = 2;
+		var inconclusive = 1;
 		summary.failed = failed;
+		summary.inconclusive = inconclusive;
 		summary.passed = 3;
 		get();
 		
-		test('it returns number of failing tests', function() {
-			assert.equal(returned,failed);
+		test('it returns number of failing and inconclusive tests', function() {
+			assert.equal(returned,failed + inconclusive);
 		});		
 	})();
 
