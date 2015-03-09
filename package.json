@@ -1,6 +1,6 @@
 {
   "name": "a_test",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "main": "index.js",
   "title": "a_test",
   "description": "Sub package of a. Test framework in compact when-style. With recursive test runner",
@@ -13,6 +13,7 @@
          "url"  : "git@github.com:alfateam/a_test.git"
       },
   "bin": {
-    "when": "./bin/rt.js"
+    "when": "./bin/rt.js",
+    "a": "./bin/a.js"
   }
 }
