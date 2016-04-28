@@ -21,7 +21,7 @@ export default class Runner {
 			.filter(absPath => fs.statSync(absPath).isFile())
 			.forEach(absPath => {
 				this._testLoader.load(absPath);
-				cacheHelper.clear();
+				cacheHelper.clear(module);
 			});
 	}
 
