@@ -17,7 +17,7 @@ harness.push(async() => {
     console.log('\n\nUNIT TESTS')
     paths.forEach(p => {
         console.log('\n' + p);
-        let result = child_process.spawnSync('nodejs', [path.resolve(p)], {stdio: 'inherit'});
+        let result = child_process.spawnSync('node', [path.resolve(p)], {stdio: 'inherit'});
         status += result.status;
     });
 });
@@ -26,7 +26,7 @@ harness.push(async() => {
     let paths = await globby([ './test-compiled/integrationSpec/**/when*.js', '!./test-compiled/**/node_modules/*.js']);
     console.log('\n\nINTEGRATION TESTS using "node path/to/whenFoo.js"')
     paths.forEach(p => {
-        let result = child_process.spawnSync('nodejs', [path.resolve(p)], {stdio: 'inherit'});
+        let result = child_process.spawnSync('node', [path.resolve(p)], {stdio: 'inherit'});
         status += result.status;
     });
 });
