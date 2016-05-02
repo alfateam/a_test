@@ -9,7 +9,7 @@ export default class reporter {
 
     static setExitCode() {
         let { summary } = process;
-        process.exitCode = summary.failed + summary.inconclusive;
+        process.exitCode = summary.failed + summary.inconclusive + summary.notRunnableSuites;
     }
 
     static ensureStatsInitialized() {
@@ -19,6 +19,7 @@ export default class reporter {
             passed: 0,
             failed: 0,
             suites: 0,
+            notRunnableSuites: 0,
             inconclusive: 0,
             messages: []
         };
@@ -76,6 +77,18 @@ export default class reporter {
         process.summary.messages.push(summaryMsg);
     }
 
+    static notRunnableSuite(suite_name, err) {
+        let errorMessage = err.stack || err;
+
+        let msg = _p(`  <c:red>${errorMessage}</c:red>`);
+        let summaryMsg = `${suite_name}\n${msg}\n------------`;
+
+        _l(msg);
+
+        process.summary.messages.push(summaryMsg);
+        process.summary.notRunnableSuites++;
+    }
+
     static summary() {
         _l('\n========== Summary =============\n');
         let s = process.summary;
@@ -88,7 +101,8 @@ export default class reporter {
         summaryMessage += `suites: ${s.suites}, `;
         summaryMessage += `passed: <c:green>${s.passed}</c:green>, `
         summaryMessage += `failed: <c:red>${s.failed}</c:red>, `
-        summaryMessage += `inconclusive: <c:yellow>${s.inconclusive}</c:yellow>`;
+        summaryMessage += `inconclusive: <c:yellow>${s.inconclusive}</c:yellow>, `,
+        summaryMessage += `not runnable suites: <c:red>${s.notRunnableSuites}</c:red>`;
 
         _l(summaryMessage);
     }

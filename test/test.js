@@ -18,4 +18,15 @@ test.head = headerMessage => {
         console.log(p(`\n <c:green>** ${headerMessage} **</c:green>`));
 };
 
+test.runHarness = async harness =>{
+    for (let t of harness) {
+        try {
+            await t();
+        } catch(e) {
+            console.log(e.stack || e);
+            process.exitCode = 1;
+        }
+    }
+}
+
 export default test;

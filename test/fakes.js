@@ -119,9 +119,15 @@ export class ResultFactory {
     }
 }
 
-export class AsyncArrangeActChain {
+export class ArrangeActChain {
     executeShouldThrow(err) {
         this._err = err;
+    }
+
+    executeSync() {
+        if (this._err) {
+            throw this._err;
+        }
     }
 
     async execute() {
@@ -130,27 +136,21 @@ export class AsyncArrangeActChain {
         }
     }
 }
-export class SyncArrangeActChain {
-    executeShouldThrow(err) {
-        this._err = err;
-    }
-
-    execute() {
-        if (this._err) {
-            throw this._err;
-        }
-    }
-}
 
 
 export class reporter {
-    static suite(suiteName) {
+    static suite(suiteName) {        
         this.reportedSuiteName = suiteName;
     }
 
     static inconclusiveSuite(suiteName, err) {
         this.reportedInconclusiveSuiteName = suiteName;
-        this.reportedError = err;
+        this.reportedInconclusiveSuiteError = err;
+    }
+
+    static notRunnableSuite(suiteName, err) {
+        this.reportedNotRunnableSuiteName = suiteName;
+        this.reportedNotRunnableSuiteError = err;
     }
 }
 

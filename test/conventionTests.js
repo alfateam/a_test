@@ -230,9 +230,4 @@ harness.push(() => {
     });
 });
 
-
-(async () => {
-    for (let t of harness) {
-        await t();
-    }
-})();
+test.runHarness(harness);

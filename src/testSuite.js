@@ -3,7 +3,7 @@ import ArrangeActChainFactory from './arrangeActChainFactory';
 import SuiteNameBuilder from './suiteNameBuilder';
 
 export default class TestSuite {
-    
+
     constructor(suiteNameBuilder = new SuiteNameBuilder(),
         arrangeActChainFactory = new ArrangeActChainFactory(),
         resultFactory = new ResultFactory()) {

@@ -39,18 +39,22 @@ export default class Result {
             .execute()
             .then(result => this._ok(result), e => this._fail(e))
             .then(result => {
-                this._reportSuiteName();
                 return callback(result);
-            });
+            })
+			.then(null, e => this._logError(e));
     }
 
     _ok() {
-        this._reportSuiteName = this._reporter.suite.bind(this._reporter, this._suiteName);
+        this._reporter.suite(this._suiteName);
         return this._it.regularIt;
     }
 
     _fail(e) {
-        this._reportSuiteName = this._reporter.inconclusiveSuite.bind(this._reporter.inconclusiveSuite, this._suiteName, e);
+        this._reporter.inconclusiveSuite(this._suiteName, e);
         return this._it.inconclusiveIt;
     }
+
+	_logError(e) {
+		this._reporter.notRunnableSuite(this._suiteName, e);
+	}
 }

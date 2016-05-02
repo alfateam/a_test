@@ -7,6 +7,5 @@ export default class ModuleLoader {
         let loadedModule = require(modulePath);
         loadedModule.path = modulePath;
         return loadedModule;
-
     }
 }
