@@ -1,0 +1,24 @@
+{
+  "parser": "babel-eslint",
+  "env": {
+    "node": true
+  },
+  "plugins": [
+    "babel"
+  ],
+  "rules": {
+    "strict": 0,
+    "quotes": [1, "single"],
+    "no-use-before-define": 0,
+    "new-cap": 0,
+    "no-underscore-dangle": 0,
+    "curly": 0
+  },
+  "parserOptions": {
+      "ecmaVersion": 7,
+      "sourceType": "module",
+      "ecmaFeatures": {
+          "impliedStrict" : true
+      }
+  }
+}
