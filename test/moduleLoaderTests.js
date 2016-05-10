@@ -15,4 +15,12 @@ import path from 'path';
         assert.ok(loadedModule);
         assert.strictEqual(loadedModule.path, expectedModulePathValue);
     });
+
+    test('is able to load module that has a default function export', () => {
+        let modulePath = './exportsDefaultFunction';
+
+        let loadedValue = sut.load(path.join(__dirname, modulePath));
+
+        assert.strictEqual('function', typeof loadedValue);
+    });
 })();

@@ -1,6 +1,6 @@
 {
   "name": "a_test",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "index.js",
   "title": "a_test",
   "description": "Sub package of a. Test framework in compact when-style. With recursive test runner",

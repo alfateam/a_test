@@ -10,6 +10,7 @@ import { TestLoader } from './fakes'
     test('finds and runs test files in given dir recursively', () => {
         let expectedTestPaths = [
             path.join(specsDir, './whenAsyncFoo.js'),
+            path.join(specsDir, './whenDefaultAsyncFoo.js'),
             path.join(specsDir, './when_foo.js'),
             path.join(specsDir, './subDir/whenBaz.js')
         ];
