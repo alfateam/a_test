@@ -1,6 +1,6 @@
 {
   "name": "a_test",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "main": "index.js",
   "title": "a_test",
   "description": "Sub package of a. Test framework in compact when-style. With recursive test runner",
@@ -20,7 +20,7 @@
   "dependencies": {
     "babel-polyfill": "^6.5.0",
     "babel-register": "^6.6.0",
-    "styled-console": "^1.0.1"
+    "console-style": "^0.1.2"
   },
   "repository": {
     "type": "git",

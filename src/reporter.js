@@ -1,9 +1,6 @@
-import StyledConsole from 'styled-console';
-let sc = new StyledConsole();
-let _p = sc.parse.bind(sc);
-let _l = text => {
-    console.log(_p(text));
-};
+import style from 'console-style'
+let { green, yellow, red } = style;
+let _l = console.log;
 
 export default class reporter {
 
@@ -26,17 +23,17 @@ export default class reporter {
     }
 
     static ok(testname) {
-        _l(`  <c:green>✓ ${testname}</c:green>`);
+        _l(green(`  ✓ ${testname}`));
         process.summary.passed++;
     }
 
     static warn(message) {
-        _l(`\n<c:yellow>${message}</c:yellow>`);
+        _l(yellow(`\n${message}`));
     }
 
     static fail(testname, ...extraArgs) {
 
-        let errorMessage = `  <c:red> ✘ ${testname}</c:red>`,
+        let errorMessage = red(`   ✘ ${testname}`),
             traceLines = extraArgs.map(line => {
                 return `        ${line}`;
             })
@@ -44,7 +41,7 @@ export default class reporter {
         _l(errorMessage);
         _l(traceLines);
 
-        let summaryMessage = ``;
+        let summaryMessage = '';
         summaryMessage += `\n${process.summary.lastSuiteName}`;
         summaryMessage += `\n${errorMessage}`
         summaryMessage += `\n${traceLines}`
@@ -55,7 +52,7 @@ export default class reporter {
     }
 
     static inconclusive(testname) {
-        _l(`  <c:yellow>! ${testname}</c:yellow>`);
+        _l(yellow(`  ! ${testname}`));
         process.summary.inconclusive++;
     }
 
@@ -69,7 +66,7 @@ export default class reporter {
     static inconclusiveSuite(suite_name, err) {
         let errorMessage = err.stack || err;
 
-        let msg = _p(`  <c:red>${errorMessage}</c:red>`);
+        let msg = red(`  ${errorMessage}`);
         let summaryMsg = `${suite_name}\n${msg}\n------------`;
 
         _l(msg);
@@ -80,7 +77,7 @@ export default class reporter {
     static notRunnableSuite(suite_name, err) {
         let errorMessage = err.stack || err;
 
-        let msg = _p(`  <c:red>${errorMessage}</c:red>`);
+        let msg = red(`  ${errorMessage}`);
         let summaryMsg = `${suite_name}\n${msg}\n------------`;
 
         _l(msg);
@@ -99,10 +96,10 @@ export default class reporter {
 
         let summaryMessage = `\n`;
         summaryMessage += `suites: ${s.suites}, `;
-        summaryMessage += `passed: <c:green>${s.passed}</c:green>, `
-        summaryMessage += `failed: <c:red>${s.failed}</c:red>, `
-        summaryMessage += `inconclusive: <c:yellow>${s.inconclusive}</c:yellow>, `,
-        summaryMessage += `not runnable suites: <c:red>${s.notRunnableSuites}</c:red>`;
+        summaryMessage += `passed: ${green(s.passed)}, `
+        summaryMessage += `failed: ${red(s.failed)}, `
+        summaryMessage += `inconclusive: ${yellow(s.inconclusive)}, `,
+        summaryMessage += `not runnable suites: ${red(s.notRunnableSuites)}`;
 
         _l(summaryMessage);
     }
