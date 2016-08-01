@@ -1,6 +1,8 @@
 import TestSuite from './testSuite';
 import reporter from './reporter';
-import 'babel-register';
+
+if(process.env.A_TEST_BABEL_REGISTER)
+    require('babel-register');
 
 if(!global._babelPolyfill)
 	require('babel-polyfill');
