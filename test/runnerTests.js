@@ -2,7 +2,11 @@ import test from './test';
 import assert from 'assert';
 import Runner from '../dist/runner';
 import path from 'path';
-import { TestLoader } from './fakes'
+import {
+    TestLoader,
+    SuiteNameBuilder,
+    reporter
+} from './fakes';
 
 (() => {
     let specsDir = path.join(__dirname, './integrationSpec');
@@ -15,9 +19,11 @@ import { TestLoader } from './fakes'
             path.join(specsDir, './subDir/whenBaz.js')
         ];
         let testLoader = new TestLoader();
-        let runner = new Runner(testLoader);
+        let suiteNameBuilder = new SuiteNameBuilder();
+        let runner = new Runner(testLoader, suiteNameBuilder, reporter);
         runner.run(specsDir);
         assert.deepEqual(expectedTestPaths, testLoader.loadedPaths)
-    })
+    });
 
+    
 })();
