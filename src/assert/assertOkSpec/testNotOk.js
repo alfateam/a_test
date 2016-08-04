@@ -19,4 +19,3 @@ sut(title,value);
 test('it should report failed', function() {
 	assert.doesNotThrow(reporter.fail.verify);
 });
-
